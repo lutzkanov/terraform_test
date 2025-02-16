@@ -34,6 +34,13 @@ resource "aws_s3_bucket" "website_bucket" {
     index_document = "index.html"
   }
 
+  block_public_acls = false
+  ignore_public_acls = false
+  block_public_policy = false
+  ignore_changes = [bucket]
+}
+
+
   lifecycle {
     prevent_destroy = false
     ignore_changes = [
