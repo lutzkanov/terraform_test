@@ -32,18 +32,17 @@ provider "aws" {
 # S3 Bucket Resource
 resource "aws_s3_bucket" "website_bucket" {
   bucket = var.bucket_name
-  acl    = "public-read"
+  acl    = "private"  
 
   website {
     index_document = "index.html"
   }
 }
 
-# S3 Bucket Public Access Block (new resource for managing public access)
 resource "aws_s3_bucket_public_access_block" "website_bucket_public_access" {
   bucket = aws_s3_bucket.website_bucket.bucket
 
-  block_public_acls   = false
+  block_public_acls   = false  
   ignore_public_acls  = false
   block_public_policy = false
 }
