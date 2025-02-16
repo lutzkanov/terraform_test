@@ -77,8 +77,14 @@ jobs:
           AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
-          chmod +x import_bucket.sh
-          ./import_bucket.sh
+          BUCKET_NAME="test"
+          aws s3api head-bucket --bucket $BUCKET_NAME 2>/dev/null
+          if [ $? -eq 0 ]; then
+            echo "Bucket exists. Importing into Terraform..."
+            terraform import aws_s3_bucket.website_bucket $BUCKET_NAME
+          else
+            echo "Bucket does not exist. Proceeding with apply..."
+          fi
           terraform apply -auto-approve \
             -var "aws_access_key_id=${{ secrets.AWS_ACCESS_KEY_ID }}" \
             -var "aws_secret_access_key=${{ secrets.AWS_SECRET_ACCESS_KEY }}"
