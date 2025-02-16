@@ -40,15 +40,6 @@ resource "aws_s3_bucket" "website_bucket" {
   ignore_changes = [bucket]
 }
 
-
-  lifecycle {
-    prevent_destroy = false
-    ignore_changes = [
-      bucket
-    ]
-  }
-}
-
 resource "aws_s3_bucket_object" "website_files" {
   for_each = fileset("./quizz-app", "**/*")
 
