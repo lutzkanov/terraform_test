@@ -1,5 +1,29 @@
+variable "aws_access_key_id" {
+  description = "AWS Access Key ID"
+  type        = string
+  default     = ""
+}
+
+variable "aws_secret_access_key" {
+  description = "AWS Secret Access Key"
+  type        = string
+  default     = ""
+}
+
+variable "aws_region" {
+  default = "ap-south-1"
+}
+
+variable "bucket_name" {
+  default = "test"
+}
+
+
+
 provider "aws" {
   region = var.aws_region
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
 }
 
 resource "aws_s3_bucket" "website_bucket" {
@@ -43,10 +67,3 @@ resource "aws_s3_bucket_object" "website_files" {
   }, split(".", each.value)[length(split(".", each.value)) - 1], "application/octet-stream")
 }
 
-variable "aws_region" {
-  default = "ap-south-1"
-}
-
-variable "bucket_name" {
-  default = "test"
-}
