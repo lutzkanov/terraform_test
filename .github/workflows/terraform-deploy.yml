@@ -32,11 +32,6 @@ jobs:
           aws configure set aws_secret_access_key ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws configure set region ap-south-1
 
-      - name: Install dependencies
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y awscli
-
       - name: Check if S3 Bucket exists and import
         run: |
           chmod +x import_bucket.sh
